@@ -1,17 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let button = document.getElementById("switch-btn");
-    let body = document.body;
-    let div = document.getElementById("div")
+    const button = document.getElementById("switch-btn");
+    const body = document.body;
+    const copy = document.getElementById("copyBtn");
+    let hexadecimal = "";
 
     function setColor(){
         r_INDEX = Math.floor(Math.random()*255);
         g_INDEX = Math.floor(Math.random()*255);
         b_INDEX = Math.floor(Math.random()*255);
         body.style.backgroundColor = `rgb(${r_INDEX}, ${g_INDEX}, ${b_INDEX})`;
-        let rgbValue = body.style.backgroundColor;
+        var rgbValue = body.style.backgroundColor;
         console.log(rgbValue);
         function componentToHex(c) {
-            var hex = c.toString(16);
+            let hex = c.toString(16);
             return hex.length == 1 ? "0" + hex : hex;
         }
         
@@ -20,14 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let h1 = document.getElementById("hex");
-        let hexadecimal = rgbToHex(r_INDEX, g_INDEX, b_INDEX)
+        hexadecimal = rgbToHex(r_INDEX, g_INDEX, b_INDEX)
 
         if (h1.innerText != ""){
             h1.innerText ='';
         }
 
-        h1.innerText = hexadecimal.toUpperCase();     
+        h1.innerText = hexadecimal.toUpperCase();   
+        
+        copy.style.display = "inline-block"
     };
 
-    button.addEventListener('click', setColor);
+    function copiarTexto(){
+        navigator.clipboard.writeText(hexadecimal.toUpperCase()).then(() => {
+            alert("Texto copiado com sucesso!")
+        });
+    }
+
+    button.addEventListener("click", setColor);
+    copy.addEventListener("click", copiarTexto);
 });
